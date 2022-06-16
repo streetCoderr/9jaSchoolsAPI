@@ -1,5 +1,7 @@
-
+require('dotenv').config()
 const ppt = require('puppeteer');
+const School = require('./models/school');
+const connectDB = require('./db/connect');
 
 const schoolsInfo = async () => {
   const browser = await ppt.launch();
@@ -22,7 +24,7 @@ const schoolsInfo = async () => {
         location: res[++i].firstElementChild ? 
           res[i].firstElementChild.innerText.trim() : res[i].innerText.trim(),
         funding: res[++i].innerText.trim(),
-        founded: res[++i].innerText.trim(),
+        founded: Number(res[++i].innerText.trim()),
       });
       i++;
     }
@@ -32,8 +34,18 @@ const schoolsInfo = async () => {
   return val;
 };
 
-const run = async () => {
-  const res = await schoolsInfo();
-  console.log(res)
+const runPopulate = async () => {
+  try {
+    const schools = await schoolsInfo();
+    await connectDB(process.env.MONGO_URI);
+    await School.deleteMany();
+    await School.create(schools);
+    console.log('success');
+    process.exit(0);
+  } catch (error) {
+    console.log(error);
+    process.exit(1)
+  }
 }
-run()
+
+runPopulate();

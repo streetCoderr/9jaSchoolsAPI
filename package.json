@@ -1,7 +1,7 @@
 {
-  "name": "storex",
+  "name": "9ja_schools_api",
   "version": "1.0.0",
-  "description": "A store API for products",
+  "description": "An API to get info on Nigerian schools",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
