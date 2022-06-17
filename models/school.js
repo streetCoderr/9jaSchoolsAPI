@@ -25,7 +25,7 @@ const schoolSchema = new mongoose.Schema({
     type: String,
     required: [true, "provide the entity in charge of funding this school"],
   },
-  founded: {
+  year_founded: {
     type: Number,
     default: 0,
   },

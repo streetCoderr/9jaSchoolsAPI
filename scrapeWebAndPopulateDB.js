@@ -24,7 +24,7 @@ const schoolsInfo = async () => {
         location: res[++i].firstElementChild ? 
           res[i].firstElementChild.innerText.trim() : res[i].innerText.trim(),
         funding: res[++i].innerText.trim(),
-        founded: Number(res[++i].innerText.trim()),
+        year_founded: Number(res[++i].innerText)  ? Number(res[i].innerText) : 0,
       });
       i++;
     }
