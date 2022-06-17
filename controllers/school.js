@@ -9,6 +9,7 @@ const getSchool = async (req, res) => {
     schools.select(fieldsParams);
   }
   schools = await schools;
+  if (!schools) throw Error("Resource not found");
   res.status(200).json({nbHits: schools.length, schools});
 }
 
@@ -39,7 +40,6 @@ const getSchools = async (req, res) => {
       '=': '$eq',
     }
 
-    // const regex = /^(<|>|>=|=|<|<=)$/g;
     let filters = numericFilters.trim().replace(/\b(>|<|<=|>=|=)\b/g, match => `-${opMaps[match]}-`);
     let numFields = ['year_founded'];
     filters.split(',').forEach((filter) => {
@@ -47,7 +47,7 @@ const getSchools = async (req, res) => {
       if (numFields.includes(numField)) queryObject[numField] = { [op]: Number(num) };
     })
   }
-  console.log(queryObject);
+  // console.log(queryObject);
 
   const result = School.find(queryObject);
   if (sort) {
